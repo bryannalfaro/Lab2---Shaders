@@ -328,7 +328,7 @@ class Renderer(object):
                     col = color(r,g,b)
 
                 z = A.z * w+B.z*v+C.z*u
-                col = self.shader(x,y,z)
+                col = self.shader(x,y)
                 try:
                     if z> self.zbuffer[y][x]:
                         if col==0:
@@ -342,10 +342,13 @@ class Renderer(object):
                             self.zbuffer[y][x] =z
                 except:
                     pass
-
-    def shader(self, x,y,z):
+    def shader(self, x,y):
         centerx,centery = 500,353
         centerx2,centery2 = 478,360
+        circle1 = (x-centerx)**2+(y-centery)**2
+        circle2 = (x-centerx2)**2+(y-centery2)**2
+
+        #Colors of the image
         palette = [(171,42,120),(8,4,6),(246,130,199),
         (111,17,76),(92,15,58),(225,76,167),(238,94,183),
         (206,90,155),(76,76,76)]
@@ -354,6 +357,7 @@ class Renderer(object):
             if x > (300) and x< (460+random.randint(0,10)):
                 return palette[3][2],palette[3][1],palette[3][0]
             return palette[4][2],palette[4][1],palette[4][0]
+
         if y >= 165 and y < (185+random.randint(0,12)):
             if x > (300) and x< (460+random.randint(0,20)):
                 return palette[3][2],palette[3][1],palette[3][0]
@@ -387,23 +391,26 @@ class Renderer(object):
 
         if y >= 250 and y < (270+random.randint(0,12)):
             return palette[5][2],palette[5][1],palette[5][0]
+
         if y>=270 and y < (280+random.randint(0,16)):
             if x > 300 and x< (480+random.randint(0,18)):
                 return palette[6][2],palette[6][1],palette[6][0]
             else:
                 return palette[5][2],palette[5][1],palette[5][0]
+
         if y>=280 and y < (310+random.randint(0,30)):
             return palette[5][2],palette[5][1],palette[5][0]
+
         if y >= 310 and y < (340+random.randint(0,10)):
             return palette[7][2],palette[7][1],palette[7][0]
+
         if y >= 340 and y < (375):
-
             return palette[0][2],palette[0][1],palette[0][0]
-        if y >=(375) and y < (395+random.randint(0,12)):
 
-            if(x-centerx)**2+(y-centery)**2 < 40**2:
+        if y >=(375) and y < (395+random.randint(0,12)):
+            if circle1 < 40**2:
                 return palette[0][2],palette[0][1],palette[0][0]
-            if(x-centerx2)**2+(y-centery2)**2 < 30**2:
+            if circle2 < 30**2:
 
                 return palette[0][2],palette[0][1],palette[0][0]
             if y > 375 and y <382:
@@ -420,10 +427,11 @@ class Renderer(object):
             return palette[7][2],palette[7][1],palette[7][0]
 
         if y>=(395) and y < (410+random.randint(0,12)):
-
             return palette[5][2],palette[5][1],palette[5][0]
+
         if y >= 410 and y <(430+random.randint(0,4)):
             return palette[0][2],palette[0][1],palette[0][0]
+
         else:
             return palette[3][2],palette[3][1],palette[3][0]
 
